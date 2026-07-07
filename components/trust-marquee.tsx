@@ -18,9 +18,9 @@ function TrustRow({ ariaHidden = false }: { ariaHidden?: boolean }) {
 export function TrustMarquee() {
   return (
     <section className="relative overflow-hidden border-b border-ink/7 bg-white">
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-[2] w-30 bg-gradient-to-r from-white to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-[2] w-30 bg-gradient-to-l from-white to-transparent" />
-      <div className="animate-hk-marquee flex w-max py-[26px]">
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-[2] w-12 bg-gradient-to-r from-white to-transparent sm:w-20 lg:w-30" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-[2] w-12 bg-gradient-to-l from-white to-transparent sm:w-20 lg:w-30" />
+      <div className="animate-hk-marquee flex w-max py-5 sm:py-[26px]">
         <TrustRow />
         <TrustRow ariaHidden />
       </div>

@@ -11,24 +11,27 @@ import { FaqSection } from "@/components/faq-section";
 import { NewsletterSection } from "@/components/newsletter-section";
 import { SiteFooter } from "@/components/site-footer";
 import { FloatingChatButton } from "@/components/floating-chat-button";
+import { PageTransition } from "@/components/page-transition";
 
 export default function Home() {
   return (
     <>
       <SiteHeader />
-      <main>
-        <HeroSection />
-        <TrustMarquee />
-        <FeaturedGemstones />
-        <ShopByStone />
-        <ShopByPurpose />
-        <CertificationSection />
-        <TestimonialsSection />
-        <GuideSection />
-        <FaqSection />
-        <NewsletterSection />
-      </main>
-      <SiteFooter />
+      <PageTransition>
+        <main>
+          <HeroSection />
+          <TrustMarquee />
+          <FeaturedGemstones />
+          <ShopByStone />
+          <ShopByPurpose />
+          <CertificationSection />
+          <TestimonialsSection />
+          <GuideSection />
+          <FaqSection />
+          <NewsletterSection />
+        </main>
+        <SiteFooter />
+      </PageTransition>
       <FloatingChatButton />
     </>
   );

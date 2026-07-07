@@ -13,6 +13,8 @@
   --color-muted: #6b7370;
   --color-charcoal: #2a2e2c;
   --color-cream: #efeae0;
+  /* Fallback before SiteHeader measures its real (announcement-bar-dependent) height. */
+  --header-h: 118px;
 }
 
 @theme inline {
@@ -34,6 +36,13 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+/* Single source of truth for fixed-header clearance: SiteHeader keeps this in
+   sync with its real measured height (announcement bar can wrap to 2 lines on
+   narrow screens, which a hardcoded offset can't account for). */
+[id] {
+  scroll-margin-top: var(--header-h);
 }
 
 body {
@@ -99,6 +108,32 @@ a {
   }
 }
 
+@keyframes hk-sparkle-sweep {
+  0% {
+    transform: translateX(-130%) rotate(8deg);
+  }
+  100% {
+    transform: translateX(230%) rotate(8deg);
+  }
+}
+
+.gem-shimmer {
+  position: relative;
+}
+
+.gem-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: -20% -60%;
+  background: linear-gradient(
+    100deg,
+    transparent 42%,
+    rgba(255, 255, 255, 0.16) 50%,
+    transparent 58%
+  );
+  animation: hk-sparkle-sweep 4.5s ease-in-out infinite;
+}
+
 @keyframes hk-reveal {
   from {
     opacity: 0;
@@ -150,6 +185,9 @@ a {
     opacity: 1;
   }
   .hk-reveal.hk-revealed {
+    animation: none;
+  }
+  .gem-shimmer::after {
     animation: none;
   }
 }
