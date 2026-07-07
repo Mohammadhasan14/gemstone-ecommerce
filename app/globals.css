@@ -1,26 +1,155 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-ivory: #f7f4ee;
+  --color-ink: #101816;
+  --color-night: #0b1f1c;
+  --color-teal-deep: #123b36;
+  --color-void: #08110f;
+  --color-gold: #c9a227;
+  --color-gold-light: #d4b14a;
+  --color-teal: #0f766e;
+  --color-teal-dark: #0b5a54;
+  --color-muted: #6b7370;
+  --color-charcoal: #2a2e2c;
+  --color-cream: #efeae0;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ivory: var(--color-ivory);
+  --color-ink: var(--color-ink);
+  --color-night: var(--color-night);
+  --color-teal-deep: var(--color-teal-deep);
+  --color-void: var(--color-void);
+  --color-gold: var(--color-gold);
+  --color-gold-light: var(--color-gold-light);
+  --color-teal: var(--color-teal);
+  --color-teal-dark: var(--color-teal-dark);
+  --color-muted: var(--color-muted);
+  --color-charcoal: var(--color-charcoal);
+  --color-cream: var(--color-cream);
+  --font-serif: var(--font-marcellus);
+  --font-sans: var(--font-manrope);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background: var(--color-ivory);
+  color: #1a211e;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--color-teal);
+}
+
+::selection {
+  background: rgba(201, 162, 39, 0.2);
+}
+
+@keyframes hk-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-18px);
+  }
+}
+
+@keyframes hk-float-sm {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(2deg);
+  }
+}
+
+@keyframes hk-glow {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes hk-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes hk-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes hk-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-hk-float {
+  animation: hk-float 9s ease-in-out infinite;
+}
+
+.animate-hk-float-sm {
+  animation: hk-float-sm 7s ease-in-out infinite;
+}
+
+.animate-hk-glow {
+  animation: hk-glow 7s ease-in-out infinite;
+}
+
+.animate-hk-shimmer {
+  animation: hk-shimmer 6s linear infinite;
+}
+
+.animate-hk-marquee {
+  animation: hk-marquee 32s linear infinite;
+}
+
+.hk-reveal {
+  opacity: 0;
+}
+
+.hk-reveal.hk-revealed {
+  animation: hk-reveal 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hk-float,
+  .animate-hk-float-sm,
+  .animate-hk-glow,
+  .animate-hk-shimmer,
+  .animate-hk-marquee {
+    animation: none;
+  }
+  .hk-reveal {
+    opacity: 1;
+  }
+  .hk-reveal.hk-revealed {
+    animation: none;
+  }
 }
