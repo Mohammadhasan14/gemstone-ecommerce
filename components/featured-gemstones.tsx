@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { Reveal, RevealGroup, RevealItem } from "./motion";
 import { ProductCard } from "./product-card";
 import { products } from "@/lib/data";
@@ -16,13 +17,13 @@ export function FeaturedGemstones() {
               Featured Gemstones
             </h2>
           </div>
-          <a
-            href="#stones"
+          <Link
+            href="/gemstones"
             className="group inline-flex items-center gap-2 pb-1.5 text-sm font-semibold text-teal"
           >
             View all stones
             <ArrowRight size={15} strokeWidth={2.2} className="transition-transform duration-200 group-hover:translate-x-1" />
-          </a>
+          </Link>
         </Reveal>
 
         <RevealGroup className="mt-8 grid grid-cols-2 gap-3.5 sm:mt-11 sm:gap-6 lg:grid-cols-4">

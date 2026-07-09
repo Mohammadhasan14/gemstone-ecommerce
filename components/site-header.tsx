@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { Heart, Menu, Search, ShoppingBag, X } from "lucide-react";
 import { navLinks } from "@/lib/data";
 import { EASE_OUT } from "./motion";
+import { SearchOverlay } from "./catalog/search-overlay";
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
@@ -56,6 +58,7 @@ export function SiteHeader() {
   }, [menuOpen]);
 
   const textColor = scrolled || menuOpen ? "text-ink" : "text-ivory";
+  const [searchOpen, setSearchOpen] = useState(false);
 
   return (
     <header className="fixed inset-x-0 top-0 z-[60] transition-all duration-300">
@@ -84,27 +87,31 @@ export function SiteHeader() {
         }`}
       >
         <div className="mx-auto flex h-[64px] max-w-[1240px] items-center gap-9 px-5 sm:px-8 lg:h-[72px]">
-          <a
-            href="#top"
+          <Link
+            href="/"
             className={`whitespace-nowrap font-serif text-lg tracking-[.06em] transition-colors duration-200 sm:text-xl lg:text-[22px] ${textColor}`}
           >
             HK <span className="text-gold">GEMS</span>
-          </a>
+          </Link>
 
           <div className="hidden flex-1 justify-center gap-7 lg:flex">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 className={`text-[13.5px] font-semibold tracking-[.03em] transition-colors duration-200 hover:text-gold ${textColor}`}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </div>
 
           <div className="ml-auto hidden items-center gap-5 lg:flex">
-            <button aria-label="Search" className={`cursor-pointer transition-colors duration-200 ${textColor}`}>
+            <button
+              aria-label="Search"
+              onClick={() => setSearchOpen(true)}
+              className={`cursor-pointer transition-colors duration-200 ${textColor}`}
+            >
               <Search size={19} strokeWidth={1.8} />
             </button>
             <button aria-label="Wishlist" className={`cursor-pointer transition-colors duration-200 ${textColor}`}>
@@ -114,7 +121,7 @@ export function SiteHeader() {
               <ShoppingBag size={19} strokeWidth={1.8} />
             </button>
             <motion.a
-              href="#featured"
+              href="/gemstones"
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
               className="rounded-full bg-gold px-5 py-2.5 text-[13px] font-bold text-night"
@@ -154,19 +161,26 @@ export function SiteHeader() {
             >
               <div className="flex flex-col gap-1">
                 {navLinks.map((link) => (
-                  <a
+                  <Link
                     key={link.href}
                     href={link.href}
                     onClick={() => setMenuOpen(false)}
                     className="border-b border-ink/8 py-3.5 text-[15px] font-semibold text-ink transition-colors hover:text-teal"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 ))}
               </div>
 
               <div className="flex items-center gap-6">
-                <button aria-label="Search" className="text-ink">
+                <button
+                  aria-label="Search"
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setSearchOpen(true);
+                  }}
+                  className="text-ink"
+                >
                   <Search size={20} strokeWidth={1.8} />
                 </button>
                 <button aria-label="Wishlist" className="text-ink">
@@ -178,7 +192,7 @@ export function SiteHeader() {
               </div>
 
               <motion.a
-                href="#featured"
+                href="/gemstones"
                 onClick={() => setMenuOpen(false)}
                 whileTap={{ scale: 0.96 }}
                 className="mt-auto rounded-full bg-gold px-6 py-3.5 text-center text-[14px] font-bold text-night"
@@ -189,6 +203,8 @@ export function SiteHeader() {
           </>
         )}
       </AnimatePresence>
+
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
   );
 }

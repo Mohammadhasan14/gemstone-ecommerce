@@ -131,10 +131,10 @@ export const stats = [
 ];
 
 export const navLinks = [
-  { href: "#featured", label: "Shop" },
-  { href: "#stones", label: "Gemstones" },
-  { href: "#purpose", label: "By Purpose" },
-  { href: "#certification", label: "Certification" },
-  { href: "#guide", label: "Guide" },
-  { href: "#faq", label: "FAQ" },
+  { href: "/#featured", label: "Shop" },
+  { href: "/gemstones", label: "Gemstones" },
+  { href: "/#purpose", label: "By Purpose" },
+  { href: "/#certification", label: "Certification" },
+  { href: "/#guide", label: "Guide" },
+  { href: "/#faq", label: "FAQ" },
 ];

@@ -1,22 +1,24 @@
+import Link from "next/link";
+
 const shopLinks = [
-  { href: "#stones", label: "Firoza (Turquoise)" },
-  { href: "#stones", label: "Aqiq (Agate)" },
-  { href: "#stones", label: "Pukhraj (Yellow Sapphire)" },
-  { href: "#stones", label: "All Gemstones" },
+  { href: "/gemstones?category=firoza", label: "Firoza (Turquoise)" },
+  { href: "/gemstones?category=aqiq", label: "Aqiq (Agate)" },
+  { href: "/gemstones?category=pukhraj", label: "Pukhraj (Yellow Sapphire)" },
+  { href: "/gemstones", label: "All Gemstones" },
 ];
 
 const companyLinks = [
-  { href: "#certification", label: "About Us" },
-  { href: "#certification", label: "Certifications" },
-  { href: "#guide", label: "Gemstone Guide" },
-  { href: "#faq", label: "Contact" },
+  { href: "/#certification", label: "About Us" },
+  { href: "/#certification", label: "Certifications" },
+  { href: "/#guide", label: "Gemstone Guide" },
+  { href: "/#faq", label: "Contact" },
 ];
 
 const supportLinks = [
-  { href: "#faq", label: "Shipping & Delivery" },
-  { href: "#faq", label: "Returns & Refunds" },
-  { href: "#faq", label: "Expert Consultation" },
-  { href: "#faq", label: "Track Order" },
+  { href: "/#faq", label: "Shipping & Delivery" },
+  { href: "/#faq", label: "Returns & Refunds" },
+  { href: "/#faq", label: "Expert Consultation" },
+  { href: "/#faq", label: "Track Order" },
 ];
 
 function FooterColumn({ title, links }: { title: string; links: { href: string; label: string }[] }) {
@@ -27,13 +29,13 @@ function FooterColumn({ title, links }: { title: string; links: { href: string; 
       </div>
       <div className="flex flex-col gap-2.5 sm:gap-3">
         {links.map((link) => (
-          <a
+          <Link
             key={link.label}
             href={link.href}
             className="text-[13px] text-ivory/65 transition-colors hover:text-gold sm:text-[13.5px]"
           >
             {link.label}
-          </a>
+          </Link>
         ))}
       </div>
     </div>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Reveal, RevealGroup, RevealItem } from "./motion";
 import { GemPlaceholder } from "./gem-placeholder";
 import { categories } from "@/lib/data";
@@ -22,8 +23,8 @@ export function ShopByStone() {
         <RevealGroup className="mt-8 grid grid-cols-2 gap-3.5 sm:mt-12 sm:grid-cols-3 sm:gap-[22px] lg:grid-cols-4">
           {categories.map((category) => (
             <RevealItem key={category.slot} className="h-full">
-              <a
-                href="#featured"
+              <Link
+                href={`/gemstones?category=${category.slot.replace(/^cat-/, "")}`}
                 className="group block h-full overflow-hidden rounded-2xl border border-ink/7 bg-white text-inherit transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_46px_-22px_rgba(16,24,22,.28)] sm:rounded-[20px]"
               >
                 <div className="overflow-hidden">
@@ -42,7 +43,7 @@ export function ShopByStone() {
                   </div>
                   <div className="mt-1 text-[11px] text-muted sm:mt-1.5 sm:text-[12.5px]">{category.note}</div>
                 </div>
-              </a>
+              </Link>
             </RevealItem>
           ))}
         </RevealGroup>

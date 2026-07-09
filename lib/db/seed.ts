@@ -15,12 +15,28 @@ function slugify(value: string) {
     .replace(/(^-|-$)/g, "");
 }
 
+// Only maps badges that already assert a treatment status on the live site today —
+// "Certified" is a lab-report claim, not a treatment claim, so it maps to nothing.
+const treatmentByBadge: Record<string, string | undefined> = {
+  Unheated: "Unheated",
+  Natural: "Untreated",
+};
+
 async function main() {
   const connectionString = process.env.DIRECT_URL;
   if (!connectionString) throw new Error("DIRECT_URL is not set");
 
   const client = postgres(connectionString, { max: 1 });
   const db = drizzle(client, { schema });
+
+  console.log("Clearing existing seed data...");
+  await db.delete(schema.certifications);
+  await db.delete(schema.productImages);
+  await db.delete(schema.products);
+  await db.delete(schema.origins);
+  await db.delete(schema.categories);
+  await db.delete(schema.testimonials);
+  await db.delete(schema.guides);
 
   console.log("Seeding categories...");
   const categoryRows = await db
@@ -52,20 +68,31 @@ async function main() {
       Number(p.price.replace(/[^0-9.]/g, "")) * 100
     );
 
-    await db.insert(schema.products).values({
-      slug: slugify(p.slot.replace(/^prod-/, "")),
-      sku: p.slot,
-      categoryId: categoryByName.get(category)?.id,
-      originId: originByName.get(p.origin)?.id,
-      name: p.name,
-      kind: p.kind,
-      grade: p.grade,
-      caratWeight: p.carat.replace(/[^0-9.]/g, ""),
-      priceMinor,
-      currency: "INR",
-      status: "active",
-      isUnique: true,
-      quantity: 1,
+    const [product] = await db
+      .insert(schema.products)
+      .values({
+        slug: slugify(p.slot.replace(/^prod-/, "")),
+        sku: p.slot,
+        categoryId: categoryByName.get(category)?.id,
+        originId: originByName.get(p.origin)?.id,
+        name: p.name,
+        kind: p.kind,
+        grade: p.grade,
+        treatment: treatmentByBadge[p.badge],
+        caratWeight: p.carat.replace(/[^0-9.]/g, ""),
+        priceMinor,
+        currency: "INR",
+        status: "active",
+        isUnique: true,
+        quantity: 1,
+      })
+      .returning({ id: schema.products.id });
+
+    await db.insert(schema.productImages).values({
+      productId: product.id,
+      url: null,
+      alt: p.imgHint,
+      sortOrder: 0,
     });
   }
 
