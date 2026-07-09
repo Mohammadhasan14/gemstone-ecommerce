@@ -1,6 +1,6 @@
 import { Check } from "lucide-react";
-import { Reveal } from "./motion";
-import { GemPlaceholder } from "./gem-placeholder";
+import { Reveal } from "@/components/motion";
+import { GemPlaceholder } from "@/components/gem-placeholder";
 import { certPoints } from "@/lib/data";
 
 export function CertificationSection() {

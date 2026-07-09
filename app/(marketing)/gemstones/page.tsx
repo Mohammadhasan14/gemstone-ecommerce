@@ -4,6 +4,8 @@ import { Reveal } from "@/components/motion";
 import { ProductGrid } from "@/components/catalog/product-grid";
 import { ProductFilters } from "@/components/catalog/product-filters";
 import { listProducts, getFilterOptions, type ProductFilters as ProductFilterValues, type ProductSort } from "@/lib/db/queries/products";
+import { getUser } from "@/lib/dal";
+import { listWishlistProductIds } from "@/lib/db/queries/wishlist";
 
 export const metadata: Metadata = {
   title: "Shop Gemstones — HK Gems",
@@ -35,7 +37,12 @@ export default async function GemstonesPage({
 
   const filters: ProductFilterValues = { category, origin, treatment, minPrice, maxPrice, sort };
 
-  const [products, options] = await Promise.all([listProducts(filters), getFilterOptions()]);
+  const user = await getUser();
+  const [products, options, wishlistedIds] = await Promise.all([
+    listProducts(filters),
+    getFilterOptions(),
+    user ? listWishlistProductIds(user.id) : Promise.resolve(new Set<string>()),
+  ]);
 
   const currentSearchParams = new URLSearchParams();
   if (category) currentSearchParams.set("category", category);
@@ -86,7 +93,7 @@ export default async function GemstonesPage({
               </div>
             </div>
 
-            <ProductGrid products={products} />
+            <ProductGrid products={products} wishlistedIds={wishlistedIds} />
           </div>
         </div>
       </div>

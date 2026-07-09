@@ -6,12 +6,12 @@ import type { listProducts } from "@/lib/db/queries/products";
 
 type ProductListItem = Awaited<ReturnType<typeof listProducts>>[number];
 
-export function ProductCard({ product }: { product: ProductListItem }) {
+export function ProductCard({ product, wishlisted = false }: { product: ProductListItem; wishlisted?: boolean }) {
   const perCt = formatPricePerCarat(product.priceMinor, product.currency, product.caratWeight);
 
   return (
     <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-ink/7 bg-white shadow-[0_8px_30px_-18px_rgba(16,24,22,.18)] transition-shadow duration-300 hover:shadow-[0_26px_50px_-22px_rgba(16,24,22,.3)] sm:rounded-[20px]">
-      <WishlistButton productName={product.name} />
+      <WishlistButton productId={product.id} productName={product.name} initialWishlisted={wishlisted} />
 
       <Link href={`/gemstones/${product.slug}`} className="flex h-full flex-col">
         <div className="overflow-hidden">

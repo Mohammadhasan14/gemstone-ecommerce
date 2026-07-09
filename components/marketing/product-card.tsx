@@ -4,8 +4,8 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 import { toast } from "sonner";
-import { GemPlaceholder } from "./gem-placeholder";
-import { EASE_OUT } from "./motion";
+import { GemPlaceholder } from "@/components/gem-placeholder";
+import { EASE_OUT } from "@/components/motion";
 import type { Product } from "@/lib/data";
 
 export function ProductCard({ product }: { product: Product }) {

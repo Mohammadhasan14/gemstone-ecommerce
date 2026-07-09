@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { Reveal, RevealGroup, RevealItem } from "./motion";
+import { Reveal, RevealGroup, RevealItem } from "@/components/motion";
 import { ProductCard } from "./product-card";
 import { products } from "@/lib/data";
 

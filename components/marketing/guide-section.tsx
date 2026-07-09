@@ -1,5 +1,5 @@
-import { Reveal, RevealGroup, RevealItem } from "./motion";
-import { GemPlaceholder } from "./gem-placeholder";
+import { Reveal, RevealGroup, RevealItem } from "@/components/motion";
+import { GemPlaceholder } from "@/components/gem-placeholder";
 import { guides } from "@/lib/data";
 
 export function GuideSection() {

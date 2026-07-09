@@ -1,38 +1,14 @@
 import "server-only";
-import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { eq } from "drizzle-orm";
 import { db } from "@/lib/db/client";
 import { sessions } from "@/lib/db/schema";
-
-const secretKey = process.env.SESSION_SECRET;
-if (!secretKey) throw new Error("SESSION_SECRET is not set");
-const encodedKey = new TextEncoder().encode(secretKey);
+import { encrypt, decrypt } from "@/lib/jwt";
 
 const SESSION_COOKIE = "session";
 const SESSION_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 
-type SessionPayload = {
-  sessionId: string;
-  expiresAt: Date;
-};
-
-export async function encrypt(payload: SessionPayload) {
-  return new SignJWT({ sessionId: payload.sessionId })
-    .setProtectedHeader({ alg: "HS256" })
-    .setIssuedAt()
-    .setExpirationTime(new Date(payload.expiresAt))
-    .sign(encodedKey);
-}
-
-export async function decrypt(token: string | undefined = "") {
-  try {
-    const { payload } = await jwtVerify(token, encodedKey, { algorithms: ["HS256"] });
-    return payload as { sessionId: string };
-  } catch {
-    return null;
-  }
-}
+export { decrypt };
 
 // Creates a DB-authoritative session row; the cookie carries only the encrypted session id.
 export async function createSession(userId: string) {

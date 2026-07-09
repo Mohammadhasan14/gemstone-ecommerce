@@ -3,9 +3,9 @@
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { GemPlaceholder } from "./gem-placeholder";
+import { GemPlaceholder } from "@/components/gem-placeholder";
 import { AnimatedCounter } from "./animated-counter";
-import { MountGroup, MountItem } from "./motion";
+import { MountGroup, MountItem } from "@/components/motion";
 import { stats } from "@/lib/data";
 
 export function HeroSection() {

@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { Reveal, RevealGroup, RevealItem } from "./motion";
+import { Reveal, RevealGroup, RevealItem } from "@/components/motion";
 import { purposes } from "@/lib/data";
 
 export function ShopByPurpose() {

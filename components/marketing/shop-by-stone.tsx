@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Reveal, RevealGroup, RevealItem } from "./motion";
-import { GemPlaceholder } from "./gem-placeholder";
+import { Reveal, RevealGroup, RevealItem } from "@/components/motion";
+import { GemPlaceholder } from "@/components/gem-placeholder";
 import { categories } from "@/lib/data";
 
 export function ShopByStone() {

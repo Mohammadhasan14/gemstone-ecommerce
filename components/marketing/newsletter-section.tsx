@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
-import { Reveal } from "./motion";
+import { Reveal } from "@/components/motion";
 
 export function NewsletterSection() {
   const [email, setEmail] = useState("");

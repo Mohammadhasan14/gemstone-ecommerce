@@ -1,40 +1,4 @@
-import {
-  pgTable,
-  pgEnum,
-  uuid,
-  text,
-  integer,
-  numeric,
-  boolean,
-  timestamp,
-  uniqueIndex,
-} from "drizzle-orm/pg-core";
-
-// ---------- Identity & access ----------
-
-export const userRoleEnum = pgEnum("user_role", ["customer", "admin", "staff"]);
-
-export const users = pgTable("users", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  email: text("email").notNull(),
-  passwordHash: text("password_hash").notNull(),
-  name: text("name").notNull(),
-  phone: text("phone"),
-  role: userRoleEnum("role").notNull().default("customer"),
-  emailVerifiedAt: timestamp("email_verified_at", { withTimezone: true }),
-  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-}, (table) => [
-  uniqueIndex("users_email_idx").on(table.email),
-]);
-
-export const sessions = pgTable("sessions", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
-  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-});
-
-// ---------- Catalog ----------
+import { pgTable, pgEnum, uuid, text, integer, numeric, boolean, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
 
 export const productStatusEnum = pgEnum("product_status", ["draft", "active", "sold", "archived"]);
 
@@ -93,27 +57,3 @@ export const certifications = pgTable("certifications", {
   reportUrl: text("report_url"),
   issuedAt: timestamp("issued_at", { withTimezone: true }),
 });
-
-// ---------- Content & trust ----------
-
-export const testimonials = pgTable("testimonials", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  name: text("name").notNull(),
-  initials: text("initials").notNull(),
-  meta: text("meta").notNull(),
-  quote: text("quote").notNull(),
-  published: boolean("published").notNull().default(true),
-});
-
-export const guides = pgTable("guides", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  slug: text("slug").notNull(),
-  tag: text("tag").notNull(),
-  title: text("title").notNull(),
-  coverImageHint: text("cover_image_hint"),
-  bodyMarkdown: text("body_markdown"),
-  readMinutes: integer("read_minutes"),
-  publishedAt: timestamp("published_at", { withTimezone: true }),
-}, (table) => [
-  uniqueIndex("guides_slug_idx").on(table.slug),
-]);

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import { EASE_OUT, Reveal, RevealGroup, RevealItem } from "./motion";
+import { EASE_OUT, Reveal, RevealGroup, RevealItem } from "@/components/motion";
 import { faqs } from "@/lib/data";
 
 export function FaqSection() {

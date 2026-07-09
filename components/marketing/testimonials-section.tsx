@@ -1,4 +1,4 @@
-import { Reveal, RevealGroup, RevealItem } from "./motion";
+import { Reveal, RevealGroup, RevealItem } from "@/components/motion";
 import { testimonials } from "@/lib/data";
 
 export function TestimonialsSection() {

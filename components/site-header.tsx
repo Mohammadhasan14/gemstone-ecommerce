@@ -3,12 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { Heart, Menu, Search, ShoppingBag, X } from "lucide-react";
+import { Heart, Menu, Search, ShoppingBag, User, X } from "lucide-react";
 import { navLinks } from "@/lib/data";
 import { EASE_OUT } from "./motion";
 import { SearchOverlay } from "./catalog/search-overlay";
 
-export function SiteHeader() {
+export function SiteHeader({ user }: { user: { name: string } | null }) {
+  const wishlistHref = user ? "/account/wishlist" : "/login";
+  const accountHref = user ? "/account" : "/login";
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const announceRef = useRef<HTMLDivElement>(null);
@@ -114,12 +116,23 @@ export function SiteHeader() {
             >
               <Search size={19} strokeWidth={1.8} />
             </button>
-            <button aria-label="Wishlist" className={`cursor-pointer transition-colors duration-200 ${textColor}`}>
+            <Link
+              href={wishlistHref}
+              aria-label="Wishlist"
+              className={`cursor-pointer transition-colors duration-200 ${textColor}`}
+            >
               <Heart size={19} strokeWidth={1.8} />
-            </button>
+            </Link>
             <button aria-label="Cart" className={`cursor-pointer transition-colors duration-200 ${textColor}`}>
               <ShoppingBag size={19} strokeWidth={1.8} />
             </button>
+            <Link
+              href={accountHref}
+              aria-label={user ? "My account" : "Log in"}
+              className={`cursor-pointer transition-colors duration-200 ${textColor}`}
+            >
+              <User size={19} strokeWidth={1.8} />
+            </Link>
             <motion.a
               href="/gemstones"
               whileHover={{ scale: 1.04 }}
@@ -183,12 +196,20 @@ export function SiteHeader() {
                 >
                   <Search size={20} strokeWidth={1.8} />
                 </button>
-                <button aria-label="Wishlist" className="text-ink">
+                <Link href={wishlistHref} aria-label="Wishlist" onClick={() => setMenuOpen(false)} className="text-ink">
                   <Heart size={20} strokeWidth={1.8} />
-                </button>
+                </Link>
                 <button aria-label="Cart" className="text-ink">
                   <ShoppingBag size={20} strokeWidth={1.8} />
                 </button>
+                <Link
+                  href={accountHref}
+                  aria-label={user ? "My account" : "Log in"}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-ink"
+                >
+                  <User size={20} strokeWidth={1.8} />
+                </Link>
               </div>
 
               <motion.a
