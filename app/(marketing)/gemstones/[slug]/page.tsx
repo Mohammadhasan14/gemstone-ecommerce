@@ -69,7 +69,12 @@ export default async function ProductPage({ params }: Props) {
             <CertificationBadge certifications={product.certifications} />
 
             <div className="mt-2">
-              <AddToCartForm productName={product.name} price={price} />
+              <AddToCartForm
+                productId={product.id}
+                productName={product.name}
+                price={price}
+                disabled={product.status !== "active"}
+              />
             </div>
           </div>
         </Reveal>

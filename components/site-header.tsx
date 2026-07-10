@@ -7,10 +7,15 @@ import { Heart, Menu, Search, ShoppingBag, User, X } from "lucide-react";
 import { navLinks } from "@/lib/data";
 import { EASE_OUT } from "./motion";
 import { SearchOverlay } from "./catalog/search-overlay";
+import { CartDrawer } from "./cart/cart-drawer";
+import type { CartLine } from "./cart/cart-line-item";
 
-export function SiteHeader({ user }: { user: { name: string } | null }) {
+export function SiteHeader({ user, cartItems }: { user: { name: string } | null; cartItems: CartLine[] }) {
   const wishlistHref = user ? "/account/wishlist" : "/login";
   const accountHref = user ? "/account" : "/login";
+  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const cartCurrency = cartItems[0]?.currency ?? "INR";
+  const [cartOpen, setCartOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const announceRef = useRef<HTMLDivElement>(null);
@@ -123,8 +128,17 @@ export function SiteHeader({ user }: { user: { name: string } | null }) {
             >
               <Heart size={19} strokeWidth={1.8} />
             </Link>
-            <button aria-label="Cart" className={`cursor-pointer transition-colors duration-200 ${textColor}`}>
+            <button
+              aria-label="Cart"
+              onClick={() => setCartOpen(true)}
+              className={`relative cursor-pointer transition-colors duration-200 ${textColor}`}
+            >
               <ShoppingBag size={19} strokeWidth={1.8} />
+              {cartCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-gold px-1 text-[9.5px] font-bold text-night">
+                  {cartCount}
+                </span>
+              )}
             </button>
             <Link
               href={accountHref}
@@ -199,8 +213,20 @@ export function SiteHeader({ user }: { user: { name: string } | null }) {
                 <Link href={wishlistHref} aria-label="Wishlist" onClick={() => setMenuOpen(false)} className="text-ink">
                   <Heart size={20} strokeWidth={1.8} />
                 </Link>
-                <button aria-label="Cart" className="text-ink">
+                <button
+                  aria-label="Cart"
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setCartOpen(true);
+                  }}
+                  className="relative text-ink"
+                >
                   <ShoppingBag size={20} strokeWidth={1.8} />
+                  {cartCount > 0 && (
+                    <span className="absolute -top-1.5 -right-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-gold px-1 text-[9.5px] font-bold text-night">
+                      {cartCount}
+                    </span>
+                  )}
                 </button>
                 <Link
                   href={accountHref}
@@ -226,6 +252,7 @@ export function SiteHeader({ user }: { user: { name: string } | null }) {
       </AnimatePresence>
 
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
+      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} items={cartItems} currency={cartCurrency} />
     </header>
   );
 }

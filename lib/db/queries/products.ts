@@ -1,5 +1,5 @@
 import "server-only";
-import { and, asc, desc, eq, gte, lte, ilike, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gte, lte, ilike, ne, or, sql } from "drizzle-orm";
 import { db } from "@/lib/db/client";
 import { categories, origins, products, productImages, certifications } from "@/lib/db/schema";
 
@@ -65,6 +65,9 @@ export async function listProducts(filters: ProductFilters = {}) {
 }
 
 export async function getProductBySlug(slug: string) {
+  // Deliberately not filtered to status="active": a sold or archived stone should
+  // still resolve to its PDP (showing a "Sold Out" state) rather than 404 just
+  // because it's no longer buyable. Only unpublished drafts are hidden.
   const [product] = await db
     .select({
       id: products.id,
@@ -85,7 +88,7 @@ export async function getProductBySlug(slug: string) {
     .from(products)
     .leftJoin(categories, eq(products.categoryId, categories.id))
     .leftJoin(origins, eq(products.originId, origins.id))
-    .where(and(eq(products.slug, slug), activeProduct));
+    .where(and(eq(products.slug, slug), ne(products.status, "draft")));
 
   if (!product) return null;
 

@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { SignupSchema, LoginSchema } from "@/lib/validation/auth";
 import { getUserByEmail, createUser } from "@/lib/db/queries/users";
 import { createSession, deleteSession } from "@/lib/session";
+import { mergeGuestCartOnLogin } from "@/lib/cart";
 
 export type AuthFormState =
   | {
@@ -46,6 +47,7 @@ export async function signup(_state: AuthFormState, formData: FormData): Promise
   }
 
   await createSession(userId);
+  await mergeGuestCartOnLogin(userId);
   redirect("/account");
 }
 
@@ -69,6 +71,7 @@ export async function login(_state: AuthFormState, formData: FormData): Promise<
   }
 
   await createSession(user.id);
+  await mergeGuestCartOnLogin(user.id);
   redirect("/account");
 }
 
